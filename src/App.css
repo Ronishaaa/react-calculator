@@ -1,42 +1,400 @@
-/* #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: linear-gradient(135deg, #ffb8e2 0%, #ffd6f1 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "VT323", monospace;
+  padding: 20px;
+}
+
+.calculator {
+  background-color: #ff66a3;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow:
+    0 20px 40px rgba(255, 102, 163, 0.4),
+    inset 0 4px 0 rgba(255, 255, 255, 0.3);
+  border: 8px solid #ff3385;
+  position: relative;
+  max-width: 400px;
+  width: 100%;
+}
+
+.calculator::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: -12px;
+  right: -12px;
+  bottom: -12px;
+  background: linear-gradient(
+    45deg,
+    #ff0066,
+    #ff66a3,
+    #ff3399,
+    #ff66a3,
+    #ff0066
+  );
+  border-radius: 28px;
+  z-index: -1;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.display {
+  background-color: #ffccdd;
+  border: 6px solid #ff3385;
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 30px;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    inset 0 0 20px rgba(255, 51, 133, 0.3),
+    0 8px 0 rgba(255, 51, 133, 0.2);
+}
+
+.display::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #ffffff, transparent);
+  animation: scan 2s linear infinite;
+}
+
+@keyframes scan {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(120px);
+  }
+}
+
+Add to existing .result styles .result {
+  font-family: "Press Start 2P", cursive;
+  font-size: 36px;
+  color: #ff0066;
+  text-align: right;
+  min-height: 42px;
+  text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.5);
+  letter-spacing: 2px;
+  overflow: hidden;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+Add to existing .expression styles .expression {
+  font-family: "VT323", monospace;
+  font-size: 24px;
+  color: #ff0066;
+  text-align: right;
+  min-height: 28px;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5);
+  overflow: hidden;
+  max-width: 100%;
+  white-space: nowrap;
+}
+
+Add new styles for overflow .overflow {
+  font-size: 28px;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.overflow-warning::after {
+  content: "MAX";
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 12px;
+  color: #ff0066;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 2px 5px;
+  border-radius: 3px;
+  animation: warning-pulse 0.5s infinite;
+}
+
+@keyframes warning-pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .result {
+    font-size: 24px;
+  }
+
+  .expression {
+    font-size: 18px;
+  }
+
+  .overflow {
+    font-size: 20px;
+  }
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+
+button {
+  font-family: "Press Start 2P", cursive;
+  font-size: 20px;
+  height: 70px;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  position: relative;
+  color: white;
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
+  box-shadow:
+    0 8px 0 rgba(0, 0, 0, 0.15),
+    inset 0 -4px 0 rgba(255, 255, 255, 0.2);
+}
+
+button:active {
+  transform: translateY(8px);
+  box-shadow:
+    0 0 0 rgba(0, 0, 0, 0.15),
+    inset 0 -4px 0 rgba(255, 255, 255, 0.2);
+}
+
+.function-btn {
+  background: linear-gradient(145deg, #ff66cc, #ff33aa);
+  border: 4px solid #ff0099;
+  font-size: 18px;
+}
+
+.function-btn:hover {
+  background: linear-gradient(145deg, #ff80d5, #ff4db8);
+  transform: translateY(-2px);
+}
+
+.number-btn {
+  background: linear-gradient(145deg, #ff99ff, #cc66ff);
+  border: 4px solid #cc33ff;
+}
+
+.number-btn:hover {
+  background: linear-gradient(145deg, #ffb3ff, #d580ff);
+  transform: translateY(-2px);
+}
+
+.operator-btn {
+  background: linear-gradient(145deg, #ff66b2, #ff3385);
+  border: 4px solid #ff0066;
+  font-size: 24px;
+}
+
+.operator-btn:hover {
+  background: linear-gradient(145deg, #ff80c2, #ff4d99);
+  transform: translateY(-2px);
+}
+
+.zero-btn {
+  grid-column: span 2;
+  background: linear-gradient(145deg, #ffcc00, #ff9900);
+  border: 4px solid #ff6600;
+}
+
+.zero-btn:hover {
+  background: linear-gradient(145deg, #ffd633, #ffad33);
+  transform: translateY(-2px);
+}
+
+.equals-btn {
+  background: linear-gradient(145deg, #00cc99, #009966);
+  border: 4px solid #006633;
+  grid-column: span 1;
+}
+
+.equals-btn:hover {
+  background: linear-gradient(145deg, #33ffcc, #00cc99);
+  transform: translateY(-2px);
+}
+
+.clear-btn {
+  background: linear-gradient(145deg, #ff3366, #ff0033);
+  border: 4px solid #cc0022;
+}
+
+.clear-btn:hover {
+  background: linear-gradient(145deg, #ff6680, #ff3355);
+  transform: translateY(-2px);
+}
+
+.plusminus-btn {
+  background: linear-gradient(145deg, #9966ff, #6600ff);
+  border: 4px solid #4d00cc;
+}
+
+.plusminus-btn:hover {
+  background: linear-gradient(145deg, #b38fff, #8033ff);
+  transform: translateY(-2px);
+}
+
+.percent-btn {
+  background: linear-gradient(145deg, #ff9933, #ff6600);
+  border: 4px solid #cc5200;
+}
+
+.percent-btn:hover {
+  background: linear-gradient(145deg, #ffb366, #ff8533);
+  transform: translateY(-2px);
+}
+
+.decimal-btn {
+  background: linear-gradient(145deg, #33ccff, #0099ff);
+  border: 4px solid #0066cc;
+}
+
+.decimal-btn:hover {
+  background: linear-gradient(145deg, #66d9ff, #33b3ff);
+  transform: translateY(-2px);
+}
+
+button::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+.title {
+  font-family: "Press Start 2P", cursive;
+  font-size: 18px;
+  color: #ff0066;
   text-align: center;
+  margin-bottom: 20px;
+  text-shadow:
+    2px 2px 0 #ff99cc,
+    4px 4px 0 rgba(0, 0, 0, 0.1);
+  letter-spacing: 2px;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.pixel-heart {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: #ff0066;
+  clip-path: polygon(50% 0%, 100% 40%, 80% 100%, 50% 70%, 20% 100%, 0% 40%);
+  animation: float 3s ease-in-out infinite;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.pixel-heart:nth-child(1) {
+  top: -25px;
+  left: 50px;
+  animation-delay: 0s;
+}
+
+.pixel-heart:nth-child(2) {
+  top: -25px;
+  right: 50px;
+  animation-delay: 0.5s;
+}
+
+.pixel-heart:nth-child(3) {
+  bottom: -25px;
+  left: 50px;
+  animation-delay: 1s;
+}
+
+.pixel-heart:nth-child(4) {
+  bottom: -25px;
+  right: 50px;
+  animation-delay: 1.5s;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
   }
-  to {
-    transform: rotate(360deg);
+  50% {
+    transform: translateY(-10px) scale(1.2);
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+@keyframes error-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
   }
 }
 
-.card {
-  padding: 2em;
+.error {
+  animation: error-shake 0.5s ease-in-out;
 }
 
-.read-the-docs {
-  color: #888;
-} */
+@media (max-width: 480px) {
+  .calculator {
+    padding: 20px;
+    transform: scale(0.95);
+  }
+
+  button {
+    height: 60px;
+    font-size: 18px;
+  }
+
+  .result {
+    font-size: 28px;
+  }
+
+  .expression {
+    font-size: 20px;
+  }
+}
